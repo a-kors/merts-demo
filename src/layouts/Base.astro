@@ -23,8 +23,8 @@ const { title, description } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
-    <link rel="apple-touch-icon" href="/favicon.jpg" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.jpg`} type="image/jpeg" />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}favicon.jpg`} />
   </head>
   <body>
     <Header />
