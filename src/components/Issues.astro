@@ -7,12 +7,12 @@ import { issuesGroups, wellbeing } from '../data/master';
     <header class="section-head" data-reveal>
       <span class="section-eyebrow">С чем работаю</span>
       <h2>
-        Шесть направлений, в&nbsp;каждом — конкретные запросы, с&nbsp;которыми
+        Шесть направлений и&nbsp;конкретные запросы, с&nbsp;которыми
         ко&nbsp;мне приходят.
       </h2>
       <p>
         Если вашей темы здесь нет, не&nbsp;значит, что я с&nbsp;ней
-        не&nbsp;работаю. Напишите в&nbsp;двух абзацах — отвечу честно,
+        не&nbsp;работаю. Напишите, отвечу честно,
         подхожу&nbsp;ли я&nbsp;как специалист.
       </p>
     </header>
@@ -38,7 +38,7 @@ import { issuesGroups, wellbeing } from '../data/master';
         <p class="muted">{wellbeing.pitch}</p>
       </div>
       <ul class="wb-list">
-        {wellbeing.goals.map((g) => <li>— {g}</li>)}
+        {wellbeing.goals.map((g) => <li>{g}</li>)}
       </ul>
     </aside>
   </div>
