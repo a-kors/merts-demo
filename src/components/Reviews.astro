@@ -36,7 +36,7 @@ const reviewItems = Object.entries(imgs)
           href={master.reviewVideoUrl}
           target="_blank"
           rel="noopener"
-          data-reveal
+          data-reveal="tilt"
         >
           <div class="rc__poster">
             <Image
@@ -66,7 +66,7 @@ const reviewItems = Object.entries(imgs)
             href={master.vkReviewsAlbum}
             target="_blank"
             rel="noopener"
-            data-reveal
+            data-reveal="tilt"
             data-reveal-delay={Math.min(i * 60, 300)}
             aria-label={`Отзыв ${it.idx + 1}`}
           >

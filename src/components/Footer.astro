@@ -97,10 +97,20 @@ const sw = "1.6";
 </footer>
 
 <style>
+  /* футер на цвете сферы из финала: продолжает заливку без шва */
   footer {
-    background: var(--bg);
-    padding: 72px 0 32px;
-    border-top: 1px solid var(--line);
+    background: var(--bg-dark);
+    color: rgba(255, 255, 255, 0.86);
+    padding: 48px 0 32px;
+  }
+  footer .section-eyebrow {
+    color: #f2a77e;
+  }
+  footer .muted {
+    color: rgba(255, 255, 255, 0.58);
+  }
+  footer .hair-line {
+    background: rgba(255, 255, 255, 0.12);
   }
   .top {
     display: grid;
@@ -120,7 +130,7 @@ const sw = "1.6";
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: rgba(255, 255, 255, 0.45);
     margin-bottom: 8px;
   }
   .line,
@@ -131,28 +141,28 @@ const sw = "1.6";
     align-items: center;
     gap: 10px;
     font-size: 15px;
-    color: var(--ink);
+    color: rgba(255, 255, 255, 0.86);
     text-decoration: none;
     transition: color 0.18s ease;
   }
   footer a.line:hover,
   footer a.line:focus-visible {
-    color: var(--accent);
+    color: #ffffff;
   }
   footer a.line:hover .ico {
-    color: var(--accent);
+    color: #f2a77e;
   }
   .ico {
     flex-shrink: 0;
-    color: var(--ink-soft);
+    color: rgba(255, 255, 255, 0.45);
     transition: color 0.18s ease;
   }
   .line.muted,
   footer .line.muted {
-    color: var(--ink-muted);
+    color: rgba(255, 255, 255, 0.58);
   }
   .line.muted .ico {
-    color: var(--ink-soft);
+    color: rgba(255, 255, 255, 0.45);
   }
   .bottom {
     padding-top: 28px;
