@@ -4,14 +4,14 @@ import CtaGroup from './CtaGroup.astro';
 ---
 
 <!--
-  Финал: на светлом фоне крупная фраза и кнопка прилипают по центру, снизу поднимается мягкая тёплая сфера
-  и заливает экран; текст и кнопка перекрашиваются под тёмный фон; дальше футер на том же цвете.
-  Всё привязано к прокрутке (src/scripts/motion.ts), при «уменьшить движение» сразу конечное состояние.
+  Финал: FAQ выше, этот блок и футер на одном фоне (--bg-soft). Крупная фраза и кнопка прилипают по центру,
+  снизу поднимается мягкое тёплое свечение и растекается в том числе под FAQ и под футер (их содержимое
+  поднято над сферой). Всё привязано к прокрутке (src/scripts/motion.ts), при «уменьшить движение» сразу конечное состояние.
 -->
 <section class="sun-ft" aria-labelledby="final-h">
   <div class="sun-scene">
     <div class="sun-stick">
-      <div class="sun-ball" aria-hidden="true"></div>
+      <div class="sun-clip" aria-hidden="true"><div class="sun-ball"></div></div>
       <div class="sun-copy wrap">
         <span class="sun-eyebrow">Хочу перезагрузиться</span>
         <h2 id="final-h" class="fs-h" data-words>Если дочитали досюда,<br />просто напишите.</h2>
@@ -27,55 +27,60 @@ import CtaGroup from './CtaGroup.astro';
 
 <style>
   .sun-ft {
-    /* цвет сферы и футера: тёмный тёплый; второй акцент для текста на тёмном */
-    --sun: var(--bg-dark);
-    --glow: #f2a77e;
     padding: 0;
-    background: var(--sun);
-    color: #ffffff;
+    background: var(--bg-soft);
+  }
+  /* содержимое соседей (блок перед финалом и футер) поверх свечения, их фон под ним */
+  :global(section:has(+ .sun-ft) > *),
+  :global(footer > *) {
+    position: relative;
+    z-index: 1;
   }
 
   /* высокая сцена: экран прилипшей сцены + полтора экрана прокрутки на анимацию */
   .sun-scene {
     position: relative;
     height: 250vh;
-    background: var(--bg);
   }
   .sun-stick {
     position: sticky;
     top: 0;
     height: 100vh;
-    overflow: hidden;
     display: grid;
     place-items: center;
-    /* в самом конце фон сцены становится цветом сферы: шва с футером нет */
-    background: color-mix(in srgb, var(--sun) calc(var(--fill, 0) * 100%), var(--bg));
+  }
+  /* слой свечения шире экрана сцены: вверх на высоту блока перед финалом, вниз на высоту футера
+     (--up, --down ставит motion.ts); overflow обрезает сферу, чтобы не было прокрутки вбок */
+  .sun-clip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(-1px * var(--up, 0));
+    bottom: calc(-1px * var(--down, 0));
+    overflow: hidden;
+    pointer-events: none;
   }
 
-  /* сфера: огромный круг с мягким радиальным градиентом без края, от тёмного через терракоту в прозрачный */
+  /* сфера: огромный круг с мягким радиальным градиентом без края, тёплый абрикос с розовым краем */
   .sun-ball {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: calc(var(--up, 0) * 1px + 50vh);
     width: 200vmax;
     height: 200vmax;
     margin: -100vmax 0 0 -100vmax;
     border-radius: 50%;
-    pointer-events: none;
     background: radial-gradient(
       closest-side,
-      rgba(34, 26, 19, 1) 0%,
-      rgba(34, 26, 19, 1) 22%,
-      rgba(42, 29, 20, 0.97) 32%,
-      rgba(62, 37, 24, 0.9) 42%,
-      rgba(96, 50, 30, 0.78) 52%,
-      rgba(140, 68, 38, 0.6) 62%,
-      rgba(186, 102, 64, 0.4) 72%,
-      rgba(224, 162, 124, 0.2) 82%,
-      rgba(244, 220, 200, 0.07) 91%,
-      rgba(251, 248, 243, 0) 100%
+      rgba(244, 150, 104, 0.62) 0%,
+      rgba(245, 162, 118, 0.55) 16%,
+      rgba(246, 180, 140, 0.44) 32%,
+      rgba(246, 196, 166, 0.32) 48%,
+      rgba(244, 206, 190, 0.2) 64%,
+      rgba(243, 216, 206, 0.09) 80%,
+      rgba(243, 237, 225, 0) 100%
     );
-    transform: translateY(calc(42vh * (1 - var(--sb, 0)))) scale(calc(0.2 + 2.8 * var(--sg, 0)));
+    transform: translateY(calc(42vh * (1 - var(--sb, 0)))) scale(calc(0.5 + 1 * var(--sg, 0)));
     opacity: min(1, calc(var(--sb, 0) * 5));
     will-change: transform;
   }
@@ -92,9 +97,8 @@ import CtaGroup from './CtaGroup.astro';
     font-size: 12.5px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink-muted);
     margin-bottom: 28px;
-    transition: color 0.5s;
   }
   .fs-h {
     margin: 0 0 22px;
@@ -112,7 +116,6 @@ import CtaGroup from './CtaGroup.astro';
   .fs-h :global(.w i) {
     display: inline-block;
     font-style: normal;
-    transition: color 0.5s;
     transform: translateY(calc(28% * (1 - var(--wp, 1))));
     filter: blur(calc(16px * (1 - var(--wp, 1))));
     opacity: var(--wp, 1);
@@ -126,7 +129,6 @@ import CtaGroup from './CtaGroup.astro';
     font-size: clamp(18px, 1.8vw, 22px);
     color: var(--ink-muted);
     margin-bottom: 40px;
-    transition: color 0.5s;
   }
   .sun-actions {
     display: flex;
@@ -137,52 +139,20 @@ import CtaGroup from './CtaGroup.astro';
   .sun-actions :global(.cta-group__main) {
     padding: 20px 38px;
     font-size: 17px;
-    box-shadow: 0 26px 50px -24px rgba(31, 25, 21, 0.5);
-    transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.18s;
+    box-shadow: 0 26px 50px -24px rgba(180, 85, 46, 0.55);
   }
   .sun-actions :global(.cta-group__social) {
     width: 56px;
     height: 56px;
-    transition: background 0.4s, border-color 0.4s, color 0.4s;
+    background: rgba(255, 255, 255, 0.55);
   }
   .sun-phone {
     font-size: 14px;
     color: var(--ink-muted);
-    transition: color 0.5s;
+    transition: color 0.2s;
   }
-
-  /* перекраска по мере заливки (классы ставит motion.ts) */
-  .sun-ft:global(.lit2) .fs-h :global(.l2 i) {
-    color: var(--glow);
-  }
-  .sun-ft:global(.lit1) .fs-h :global(.w:not(.l2) i) {
-    color: #ffffff;
-  }
-  .sun-ft:global(.lit1) .sun-eyebrow {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .sun-ft:global(.lit1) .sun-sub {
-    color: rgba(255, 255, 255, 0.72);
-  }
-  .sun-ft:global(.lit) .sun-actions :global(.cta-group__main) {
-    background: linear-gradient(180deg, #d9784c, var(--accent));
-    color: #ffffff;
-    box-shadow: 0 26px 60px -20px rgba(217, 120, 76, 0.55);
-  }
-  .sun-ft:global(.lit) .sun-actions :global(.cta-group__social) {
-    background: transparent;
-    border-color: rgba(255, 255, 255, 0.28);
-    color: rgba(255, 255, 255, 0.9);
-  }
-  .sun-ft:global(.lit) .sun-actions :global(.cta-group__social:hover) {
-    border-color: #ffffff;
-    color: #ffffff;
-  }
-  .sun-ft:global(.lit) .sun-phone {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .sun-ft:global(.lit) .sun-phone:hover {
-    color: #ffffff;
+  .sun-phone:hover {
+    color: var(--accent);
   }
 
   @media (max-width: 760px) {

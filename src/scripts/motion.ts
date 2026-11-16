@@ -106,7 +106,7 @@ for (const scene of document.querySelectorAll<HTMLElement>('[data-lit-scene]')) 
   );
 }
 
-// ---------- финал: слова фокусируются, сфера поднимается и заливает экран
+// ---------- финал: слова фокусируются, снизу поднимается тёплое свечение
 const ft = document.querySelector<HTMLElement>('.sun-ft');
 if (ft) {
   const scene = ft.querySelector<HTMLElement>('.sun-scene')!;
@@ -129,7 +129,18 @@ if (ft) {
     (q) => words.forEach((w, i) => w.style.setProperty('--wp', clamp((q - 0.1 - i * 0.05) / 0.35).toFixed(4)))
   );
 
-  // сфера стартует, как только кнопка показалась снизу, и заливает экран до того, как блок отлипнет
+  // слой свечения заходит под блок перед финалом и под футер: их высоты
+  const prev = ft.previousElementSibling as HTMLElement | null;
+  const foot = document.querySelector<HTMLElement>('footer');
+  const size = () => {
+    scene.style.setProperty('--up', String(prev?.offsetHeight ?? 0));
+    scene.style.setProperty('--down', String(foot?.offsetHeight ?? 0));
+  };
+  size();
+  addEventListener('resize', size);
+  addEventListener('load', size);
+
+  // сфера стартует, как только сцена показалась снизу, и разрастается до того, как блок отлипнет
   on(
     () => {
       const r = scene.getBoundingClientRect();
@@ -140,16 +151,6 @@ if (ft) {
       const grow = p * p * p * (p * (6 * p - 15) + 10); // рост: медленно, потом быстро
       scene.style.setProperty('--sb', rise.toFixed(4));
       scene.style.setProperty('--sg', grow.toFixed(4));
-      scene.style.setProperty('--fill', clamp((p - 0.92) / 0.08).toFixed(4));
-      // перекраска по тому, накрыла ли тёмная часть сферы текст: пороги по доле прокрутки
-      // на телефоне и на широком экране дают разное, поэтому считаем геометрию.
-      // центр сферы ниже центра экрана на 42vh*(1-rise); тёмная часть ~ до половины радиуса (радиус 100vmax * масштаб)
-      const H = vh();
-      const core = 0.5 * Math.max(innerWidth, H) * (0.2 + 2.8 * grow);
-      const below = 0.42 * H * (1 - rise);
-      ft.classList.toggle('lit2', core > below + 0.15 * H); // вторая строка (ниже) в акцент
-      ft.classList.toggle('lit', core > below); // кнопка (ещё ниже)
-      ft.classList.toggle('lit1', core > below + 0.24 * H); // первая строка, выше всех
     }
   );
 }
