@@ -118,7 +118,7 @@ const nav = [
   .row::before {
     content: '';
     position: absolute;
-    inset: 5px -14px;
+    inset: 5px 12px; /* строка во всю ширину блока (с полями), таблетка всегда с отступом от краёв экрана */
     border-radius: 999px;
     background: rgba(251, 248, 243, 0.86);
     backdrop-filter: saturate(150%) blur(14px);
@@ -130,12 +130,6 @@ const nav = [
     transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.2, 0.65, 0.2, 1);
     pointer-events: none;
     z-index: -1;
-  }
-  /* на телефоне строка во всю ширину: таблетка с отступом от краёв экрана */
-  @media (max-width: 760px) {
-    .row::before {
-      inset: 5px 10px;
-    }
   }
   .hdr.is-float .row::before {
     opacity: 1;
