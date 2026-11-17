@@ -140,7 +140,7 @@ if (ft) {
   addEventListener('resize', size);
   addEventListener('load', size);
 
-  // сфера стартует, как только сцена показалась снизу, и разрастается до того, как блок отлипнет
+  // сфера стартует, как только сцена показалась снизу, разрастается и заливает экран до того, как блок отлипнет
   on(
     () => {
       const r = scene.getBoundingClientRect();
@@ -151,6 +151,7 @@ if (ft) {
       const grow = p * p * p * (p * (6 * p - 15) + 10); // рост: медленно, потом быстро
       scene.style.setProperty('--sb', rise.toFixed(4));
       scene.style.setProperty('--sg', grow.toFixed(4));
+      scene.style.setProperty('--fill', clamp((p - 0.78) / 0.2).toFixed(4)); // в конце экран целиком в цвет сферы
     }
   );
 }

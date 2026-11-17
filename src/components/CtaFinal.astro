@@ -4,7 +4,8 @@ import CtaGroup from './CtaGroup.astro';
 ---
 
 <!--
-  Финал: FAQ выше, этот блок и футер на одном фоне (--bg-soft). Крупная фраза и кнопка прилипают по центру,
+  Финал: FAQ выше и этот блок на одном фоне (--bg-soft), в конце экран целиком уходит в цвет сферы (--warm),
+  футер уже этого цвета. Крупная фраза и кнопка прилипают по центру,
   снизу поднимается мягкое тёплое свечение и растекается в том числе под FAQ и под футер (их содержимое
   поднято над сферой). Всё привязано к прокрутке (src/scripts/motion.ts), при «уменьшить движение» сразу конечное состояние.
 -->
@@ -27,6 +28,8 @@ import CtaGroup from './CtaGroup.astro';
 
 <style>
   .sun-ft {
+    /* цвет, в который уходит экран: центр сферы поверх фона */
+    --warm: #f4b796;
     padding: 0;
     background: var(--bg-soft);
   }
@@ -60,6 +63,14 @@ import CtaGroup from './CtaGroup.astro';
     overflow: hidden;
     pointer-events: none;
   }
+  /* в конце весь слой (экран, и под футером тоже) поверх сферы становится её цветом: экран меняет цвет */
+  .sun-clip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--warm);
+    opacity: var(--fill, 0);
+  }
 
   /* сфера: огромный круг с мягким радиальным градиентом без края, тёплый абрикос с розовым краем */
   .sun-ball {
@@ -80,7 +91,7 @@ import CtaGroup from './CtaGroup.astro';
       rgba(243, 216, 206, 0.09) 80%,
       rgba(243, 237, 225, 0) 100%
     );
-    transform: translateY(calc(42vh * (1 - var(--sb, 0)))) scale(calc(0.5 + 1 * var(--sg, 0)));
+    transform: translateY(calc(42vh * (1 - var(--sb, 0)))) scale(calc(0.5 + 1.6 * var(--sg, 0)));
     opacity: min(1, calc(var(--sb, 0) * 5));
     will-change: transform;
   }

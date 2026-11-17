@@ -97,10 +97,13 @@ const sw = "1.6";
 </footer>
 
 <style>
-  /* футер на одном фоне с FAQ и финалом: свечение из финала растекается и под него */
+  /* футер в цвете, которым заканчивается финал (сфера заливает экран): шва нет */
   footer {
-    background: var(--bg-soft);
+    background: #f4b796;
     padding: 48px 0 32px;
+  }
+  footer .hair-line {
+    background: rgba(31, 25, 21, 0.14);
   }
   .top {
     display: grid;
@@ -120,7 +123,7 @@ const sw = "1.6";
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: #7a6656;
     margin-bottom: 8px;
   }
   .line,
@@ -144,15 +147,15 @@ const sw = "1.6";
   }
   .ico {
     flex-shrink: 0;
-    color: var(--ink-soft);
+    color: #7a6656;
     transition: color 0.18s ease;
   }
   .line.muted,
   footer .line.muted {
-    color: var(--ink-muted);
+    color: #574a40;
   }
   .line.muted .ico {
-    color: var(--ink-soft);
+    color: #7a6656;
   }
   .bottom {
     padding-top: 28px;

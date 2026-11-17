@@ -98,6 +98,7 @@ const nav = [
     position: sticky;
     top: 0;
     z-index: 20;
+    overflow-x: clip; /* «таблетка» шире строки, на телефоне не должна давать прокрутку вбок */
     background: rgba(251, 248, 243, 0.92);
     backdrop-filter: saturate(140%) blur(10px);
     -webkit-backdrop-filter: saturate(140%) blur(10px);
@@ -129,6 +130,12 @@ const nav = [
     transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.2, 0.65, 0.2, 1);
     pointer-events: none;
     z-index: -1;
+  }
+  /* на телефоне строка во всю ширину: таблетка с отступом от краёв экрана */
+  @media (max-width: 760px) {
+    .row::before {
+      inset: 5px 10px;
+    }
   }
   .hdr.is-float .row::before {
     opacity: 1;
